@@ -1,0 +1,6 @@
+INDEX VERSION 1.131+D:\Storage\School\CP213 - Object Oriented Programming\workspace\.metadata\.plugins\org.eclipse.jdt.core
+141098871.index
+3865484891.index
+2968887996.index
+1210658807.index
+2138034145.index
