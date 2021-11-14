@@ -24,13 +24,19 @@ public class BST<T extends Comparable<T>> {
      * @param target Node of that BST.
      * @return true if source and target are identical in items and height.
      */
-    protected boolean equalsAux(final TreeNode<T> source, final TreeNode<T> target) {
+    protected boolean equalsAux(final TreeNode<T> source, final TreeNode<T> target, boolean identical) {
 
-	// your code here
-
+    	// Base Case:
+    	if (source == null && target == null) {
+    		identical = true;
+    	}
     	
+    	// Case 1: height and value r same
+    	else if (source != null && target != null && source.getItem().compareTo(target.getItem()) == 0) {
+    		identical = equalsAux(source.getLeft(), target.getLeft(), identical) && equalsAux(source.getRight(), target.getRight(), identical);
+    	}
     	
-	return false;
+	return identical;
     }
 
     /**
@@ -42,23 +48,31 @@ public class BST<T extends Comparable<T>> {
      */
     protected TreeNode<T> insertAux(TreeNode<T> node, final CountedItem<T> data) {
 	
-    	// If empty:
-    	if (this.root == null) {
-    		this.root = node;
-    		this.root.updateHeight();
+    	
+    	// Base Case --> if end of tree or duplicates:
+//    	System.out.print("Current data: " + data + " --> ");
+    	
+    	if (node == null) {
+//    		System.out.println("End of Tree/Base Case");
+    		node = new TreeNode<>(data);
+    		data.incrementCount();
+        	this.size += 1;
     	}
     	
-    	// Left:
-    	if (this.root.getItem().compareTo(data) < 0) {
-    		
+    	// Insert Left node > data:
+    	else if (node.getItem().compareTo(data) > 0) {
+//    		System.out.println("Going left from " + node.getItem());
+    		node.setLeft(insertAux(node.getLeft(), data));
     	}
     	
-    	// Right:
-    	if (this.root.getItem().compareTo(data) > 0) {
-    		
+    	// Insert Right node < data:
+    	else if (node.getItem().compareTo(data) < 0) {
+//    		System.out.println("Going right from " + node.getItem());
+    		node.setRight(insertAux(node.getRight(), data));
     	}
     	
-    	return null;
+    	node.updateHeight();
+    	return node;
     }
 
     /**
@@ -68,14 +82,35 @@ public class BST<T extends Comparable<T>> {
      * @param node The root of the subtree to test for validity.
      * @return true if the subtree base on node is valid, false otherwise.
      */
-    protected boolean isValidAux(final TreeNode<T> node, TreeNode<T> minNode, TreeNode<T> maxNode) {
+    protected boolean isValidAux(final TreeNode<T> node, TreeNode<T> minNode, TreeNode<T> maxNode, boolean valid) {
 
-    	// your code here
-    	Boolean valid = true;
+    	// Base:
+    	if (node == null) {
+    		valid = false;
+    	}
     	
+    	// Case 1: left tree min >= parent (need to recurse first)
+    	if (minNode != null && node.getItem().compareTo(minNode.getItem()) <= 0) {
+    		valid = false;
+    	}
     	
+    	// Case 2: right tree max <= parent (need to recurse first)
+    	if (maxNode != null && node.getItem().compareTo(maxNode.getItem()) >= 0) {
+    		valid = false;
+    	}
     	
-	return false;
+    	// Case 3: 
+    	if (node.getHeight() != Math.max(node.getLeft().getHeight(), node.getRight().getHeight())) {
+    		valid = false;
+    	}
+    	
+    	// Recurse Case:
+    	else {
+    		valid = isValidAux(node.getLeft(), minNode, node, valid) // 1. go to left tree, 2. find min val, 3. parent is max
+    				&& isValidAux(node.getRight(), node, maxNode, valid); // 1. go to right tree, 2. find max val, 3. parent is min
+    	}
+    		
+    	return valid;
     }
 
     /**
@@ -85,12 +120,12 @@ public class BST<T extends Comparable<T>> {
      * @return The item of the height attribute of node, 0 if node is null.
      */
     protected int nodeHeight(final TreeNode<T> node) {
-	int height = 0;
-
-	if (node != null) {
-	    height = node.getHeight();
-	}
-	return height;
+		int height = 0;
+	
+		if (node != null) {
+		    height = node.getHeight();
+		}
+		return height;
     }
 
     /**
@@ -101,9 +136,26 @@ public class BST<T extends Comparable<T>> {
      */
     public boolean contains(final CountedItem<T> key) {
 
-	// your code here
+    	// your code here
+    	TreeNode<T> node = this.root;
+    	boolean found = false;
+    	
+    	// Search:
+    	while (node != null && !found) {
+    		if (node.getItem().compareTo(key) > 0) {
+    			node = node.getLeft();
+    		}
+    		
+    		else if (node.getItem().compareTo(key) < 0) {
+    			node = node.getRight();
+    		}
+    		
+    		else if (node.getItem().compareTo(key) == 0) {
+    			found = true;
+    		}
+    	}
 
-	return false;
+	return found;
     }
 
     /**
@@ -114,12 +166,12 @@ public class BST<T extends Comparable<T>> {
      *         item, count, and height, false otherwise.
      */
     public boolean equals(final BST<T> target) {
-	boolean isEqual = false;
-
-	if (this.size == target.size) {
-	    isEqual = this.equalsAux(this.root, target.root);
-	}
-	return isEqual;
+		boolean isEqual = false;
+	
+		if (this.size == target.size) {
+		    isEqual = this.equalsAux(this.root, target.root, isEqual);
+		}
+		return isEqual;
     }
 
     /**
@@ -176,9 +228,23 @@ public class BST<T extends Comparable<T>> {
      */
     public void insert(final CountedItem<T> data) {
 
-		// Sending Vals
-	    this.insertAux(this.root, data);
-		return;
+		// Creating a Root
+//    	System.out.println("------------------");
+    	if (this.root == null) {
+    		TreeNode<T> node = new TreeNode<>(data); // new node
+    		data.incrementCount(); // accounting for data type
+    		this.root = node; 
+    		this.size += 1;
+    	}
+    	
+    	// Else --> Finding the parent node
+    	else {
+    		// Recurse and Insert
+    		insertAux(this.root, data);
+    	}
+    	
+    	this.root.updateHeight();
+   		return;
     }
 
     /**
@@ -199,7 +265,7 @@ public class BST<T extends Comparable<T>> {
      * @return true if this BST is a valid BST, false otherwise.
      */
     public boolean isValid() {
-	return this.isValidAux(this.root, null, null);
+    	return this.isValidAux(this.root, null, null, false);
     }
 
     /**
@@ -236,8 +302,29 @@ public class BST<T extends Comparable<T>> {
      */
     public CountedItem<T> retrieve(final CountedItem<T> key) {
 
-	// your code here
+    	// Declarations
+    	TreeNode<T> node = this.root;
+    	CountedItem<T> value = null;
+    	boolean found = false;
 
-	return null;
+    	// If Key is good:
+    	if (key.getCount() == 0) {
+	    	while (node != null && !found) {
+	    		if (node.getItem().compareTo(key) > 0) {
+	    			node = node.getLeft();
+	    		}
+	    		
+	    		else if (node.getItem().compareTo(key) < 0) {
+	    			node = node.getRight();
+	    		}
+	    		
+	    		else if (node.getItem().compareTo(key) == 0) {
+	    			value = node.getItem();
+	    			found = true;
+	    		}
+	    	}    		
+    	}
+    	
+	return value;
     }
 }

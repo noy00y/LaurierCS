@@ -17,7 +17,7 @@ import java.util.Scanner;
 public class A04Main {
     private static final String LINE = "-".repeat(40);
     private static final String TEST_LINE = "=".repeat(80);
-    private static final Integer[] testItems = { 1, 2, 3 };
+    private static final Integer[] testItems = { 1, 2, 3};
 
     public static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     //    public static final String FILENAME = "decline.txt";
@@ -125,8 +125,38 @@ public class A04Main {
 	System.out.println("  Contents {[{1: 1}, {2: 1}, {3: 1}]}: " + source.levelOrder().toString());
 	System.out.println("  Height {3}: " + source.getHeight());
 	System.out.println(LINE);
-	System.out.println();
+	
+	// Testing Duplicates:
+	final BST<Integer> test1 = new BST<>();
+	final BST<Integer> test2 = new BST<>();
+    Integer[] testItems2 = { 4, 5, 6};
+	
+	for (Integer i : testItems) {
+	    CountedItem<Integer> item = new CountedItem<>(i);
+	    test1.insert(item);
+	}
+	
+	for (Integer i : testItems2) {
+	    CountedItem<Integer> item = new CountedItem<>(i);
+	    test2.insert(item);
+	}
+	
+	System.out.println("Testing duplicates {true}: " + source.equals(test1));
+	System.out.println("Testing duplicates {false}: " + source.equals(test2));
+	
+	System.out.println(LINE);
+	
+	// Testing contains:
+	CountedItem<Integer> item4 = new CountedItem<>(3);
+	System.out.println("Testing Contains");
+	System.out.println("Does source contain 3: " + source.contains(item4));
+
+    // Testing retrieve:	
+	System.out.println(LINE);
+    System.out.println("Testing Retrieve");
+	System.out.println("Retrieve 3: " + source.retrieve(item4));
     }
+    
 
     /**
      * Test PopularityTree.
