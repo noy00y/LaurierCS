@@ -28,6 +28,8 @@ public class BST<T extends Comparable<T>> {
 
 	// your code here
 
+    	
+    	
 	return false;
     }
 
@@ -39,10 +41,24 @@ public class BST<T extends Comparable<T>> {
      * @return the inserted node.
      */
     protected TreeNode<T> insertAux(TreeNode<T> node, final CountedItem<T> data) {
-
-	// your code here
-
-	return null;
+	
+    	// If empty:
+    	if (this.root == null) {
+    		this.root = node;
+    		this.root.updateHeight();
+    	}
+    	
+    	// Left:
+    	if (this.root.getItem().compareTo(data) < 0) {
+    		
+    	}
+    	
+    	// Right:
+    	if (this.root.getItem().compareTo(data) > 0) {
+    		
+    	}
+    	
+    	return null;
     }
 
     /**
@@ -54,8 +70,11 @@ public class BST<T extends Comparable<T>> {
      */
     protected boolean isValidAux(final TreeNode<T> node, TreeNode<T> minNode, TreeNode<T> maxNode) {
 
-	// your code here
-
+    	// your code here
+    	Boolean valid = true;
+    	
+    	
+    	
 	return false;
     }
 
@@ -157,9 +176,9 @@ public class BST<T extends Comparable<T>> {
      */
     public void insert(final CountedItem<T> data) {
 
-	// your code here
-
-	return;
+		// Sending Vals
+	    this.insertAux(this.root, data);
+		return;
     }
 
     /**
