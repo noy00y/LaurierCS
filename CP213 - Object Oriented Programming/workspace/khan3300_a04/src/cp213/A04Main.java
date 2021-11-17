@@ -20,7 +20,7 @@ public class A04Main {
     private static final Integer[] testItems = { 1, 2, 3};
 
     public static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    //    public static final String FILENAME = "decline.txt";
+    //    public static final String FILENAME = "miserables.txt";
     public static final String FILENAME = "miserables.txt";
     public static final NumberFormat NF = NumberFormat.getInstance();
     public static final String POPULAR = "ETAOINSHRDLUCMPFYWGBVKJXZQ";
@@ -47,9 +47,20 @@ public class A04Main {
      */
     private static void characterTable(final BST<Character> tree) {
 
-	// your code here
+        final ArrayList<CountedItem<Character>> array = tree.inOrder();
+        int totalCount = 0;
 
-	return;
+        for (final CountedItem<Character> item : array) {
+            totalCount += item.getCount();
+        }
+        System.out.println("Char    Count Percent");
+
+        for (final CountedItem<Character> item : array) {
+            final int count = item.getCount();
+            final double percent = (double) item.getCount() / totalCount * 100;
+            System.out.format("%4s %,8d %7.2f%n", item.getItem(), count, percent);
+        }
+        return;
     }
 
     /**
@@ -62,9 +73,12 @@ public class A04Main {
      */
     private static void fillTree(final BST<Character> tree, final String string) {
 
-	// your code here
-
-	return;
+    	// your code here
+        for (final char letter : string.toCharArray()) {
+            final CountedItem<Character> data = new CountedItem<Character>(Character.toUpperCase(letter));
+            tree.insert(data);
+        }
+        return;
     }
 
     /**
@@ -80,8 +94,19 @@ public class A04Main {
     private static int retrieve(final BST<Character> tree, final Scanner fileScan) {
 
 	// your code here
+    	
+    	while (fileScan.hasNextLine()) {
+            final String line = fileScan.nextLine();
 
-	return 0;
+            for (final Character c : line.toCharArray()) {
+
+                if (Character.isLetter(c)) {
+                    final CountedItem<Character> key = new CountedItem<Character>(Character.toUpperCase(c));
+                    tree.retrieve(key);
+                }
+            }
+        }
+        return tree.getComparisons();
     }
 
     /**
