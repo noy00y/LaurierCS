@@ -35,9 +35,15 @@ public class Order implements Printable {
      */
     public void add(MenuItem item, int quantity) {
 
-	// your code here
-    	
+    	// Item already in hash map?:
+    	if (items.containsKey(item)) {
+    		items.put(item, items.get(item) +quantity);
+    	}
 
+    	// Else:
+    	else {
+    		items.put(item, quantity);
+    	}
     }
 
     /**
@@ -47,10 +53,13 @@ public class Order implements Printable {
      * @return the total price for the MenuItems ordered.
      */
     public BigDecimal getSubTotal() {
+    	
+    	BigDecimal subTotal = new BigDecimal("0");
+    	for(Map.Entry<MenuItem, Integer> set: items.entrySet()) {
+    		subTotal = subTotal.add(set.getKey().getPrice().multiply(new BigDecimal(set.getValue().toString()))); 
+    	}
 
-	// your code here
-
-	return null;
+    	return subTotal;
     }
 
     /**
@@ -60,10 +69,7 @@ public class Order implements Printable {
      * @return total taxes on all MenuItems
      */
     public BigDecimal getTaxes() {
-
-	// your code here
-
-	return null;
+    	return this.getSubTotal().multiply(TAX_RATE);
     }
 
     /**
@@ -72,10 +78,9 @@ public class Order implements Printable {
      * @return total price
      */
     public BigDecimal getTotal() {
-
-	// your code here
-
-	return null;
+		// Declaratoins:
+    	BigDecimal totalRate = new BigDecimal(1.13);
+    	return this.getSubTotal().multiply(totalRate);
     }
 
     /**
@@ -84,9 +89,20 @@ public class Order implements Printable {
     @Override
     public String toString() {
 
-	// your code here
-
-	return null;
+    	// Declarations
+    	String bill = "";
+    	
+    	//  Order Items
+    	for (Map.Entry<MenuItem,Integer> temp: items.entrySet()) {
+    		bill += String.format("%-15s", temp.getKey().getName()) + String.format("%-2s", temp.getValue()) + "@ $" + String.format("%5.2f", temp.getKey().getPrice().doubleValue()) + " = $" + String.format("%6s", temp.getKey().getPrice().multiply(new BigDecimal(temp.getValue().toString())).toString()) + "\n\n";
+    	}
+    	
+    	// Order Final:
+    	bill += String.format("%-28s", "Subtotal:") + "$" + String.format("%6.2f", this.getSubTotal().doubleValue())+"\n";
+    	bill += String.format("%-28s", "Taxes:") + "$" + String.format("%6.2f", this.getTaxes().doubleValue())+"\n";
+    	bill += String.format("%-28s", "Total:") + "$" + String.format("%6.2f", this.getTotal().doubleValue())+"\n";
+    	
+    	return bill;
     }
 
     /**
@@ -98,9 +114,21 @@ public class Order implements Printable {
      * @param quantity The quantity to apply to item
      */
     public void update(MenuItem item, int quantity) {
-
-	// your code here
-
+    	
+    	// Case 1: No Key --> Add as New
+    	if (!items.containsKey(item)) {
+    		items.put(item, quantity); 
+    	} 
+    	
+    	// Case 2: Existing Key but no Quantity --> Remove Key
+    	else if (items.containsKey(item) & (quantity == 0 | quantity == -1)) { 
+    		items.remove(item); 
+    	} 
+    	
+    	// Existing Key and Quantity --> Update:
+    	else { 
+    		items.replace(item, quantity); 
+    	}
     }
 
     /*
@@ -117,7 +145,7 @@ public class Order implements Printable {
 	    g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
 
 	    // your code here - write the contents of Order using drawString
-
+	    g2d.drawString(this.toString(), 100, 100);
 	} else {
 	    result = NO_SUCH_PAGE;
 	}

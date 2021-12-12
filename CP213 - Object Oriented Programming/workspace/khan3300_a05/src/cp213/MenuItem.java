@@ -70,10 +70,10 @@ pizza        $10.00
      */
     @Override
     public String toString() {
-    	String price = String.format("$%.2f", this.price);
+    	String price = String.format("$%5.2f", this.price);
     	
     	// Create padding:
-    	int padding = 18 - this.name.length() - price.length();
+    	int padding = 19 - this.name.length() - price.length();
     	String pad = "";
     	for (int i = 0; i < padding; i++) {
     		pad = pad + " ";

@@ -25,6 +25,7 @@
 		<item key="WizardZipFileResourceExportPage1.STORE_CREATE_STRUCTURE_ID" value="true"/>
 		<item key="WizardZipFileResourceExportPage1.STORE_COMPRESS_CONTENTS_ID" value="true"/>
 		<list key="WizardZipFileResourceExportPage1.STORE_DESTINATION_NAMES_ID">
+			<item value="C:/Users/ozair/Downloads/khan3300_a05.zip"/>
 			<item value="C:/Users/ozair/Downloads/khan3300_a04.zip"/>
 			<item value="C:/Users/ozair/Downloads/khan3300_a03.zip"/>
 			<item value="C:/Users/ozair/Downloads/khan3300_a02.zip"/>
