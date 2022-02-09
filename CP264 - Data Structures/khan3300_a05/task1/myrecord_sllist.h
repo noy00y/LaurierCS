@@ -39,3 +39,5 @@ typedef struct {
 char letter_grade(float score);
 int import_data(SLLIST *sllistp, char *infilename);
 STATS report_data(SLLIST *sllistp,  char *outfilename);
+
+#endif SLLIST_H

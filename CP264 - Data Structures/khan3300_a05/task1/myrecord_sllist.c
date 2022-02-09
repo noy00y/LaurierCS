@@ -16,7 +16,17 @@ void display(SLLIST *sllistp) {
 }
 
 NODE *search(SLLIST *sllistp, char *name) {
-// your implementation
+
+  // Declarations:
+  NODE *traverse = sllistp-> start;
+
+  // Iteration:
+  while (traverse != NULL) {
+    
+    // Next Node:
+    traverse = traverse->next;
+  }  
+
 }
 
 void insert(SLLIST *sllistp, char *name, float score) {
