@@ -18,20 +18,58 @@ void display(SLLIST *sllistp) {
 NODE *search(SLLIST *sllistp, char *name) {
 
   // Declarations:
-  NODE *traverse = sllistp-> start;
+  NODE *node = sllistp->start;
 
-  // Iteration:
-  while (traverse != NULL) {
+  // Traverse:
+  while (node != NULL) {
     
-    // Next Node:
-    traverse = traverse->next;
-  }  
-
+    // string comparision:
+    if (strcmp(node->data.name, name) == 0) {
+      printf("match\n");
+      return node;
+    }
+    
+    // Iteration:
+    node = node->next;
+  }
+  return node;
 }
 
 void insert(SLLIST *sllistp, char *name, float score) {
-// your implementation
-// need to update the length
+
+  // Insertion Node Declarations:
+  NODE *node = (NODE*)malloc(sizeof(NODE));
+  strcpy(node->data.name, name);
+  node->data.score = score;
+  node->next = NULL;
+
+  // Insertion Case: Empty Linked List
+  if (sllistp->length == 0) {
+    sllistp->start = node; // start set to node
+    sllistp->length += 1; // increase length
+    printf("insert node at beginning\n");
+  }
+
+  // Insertion Case: Traverse and insert
+  else {
+
+    // Linked List Traversing Declarations:
+    NODE *curr = sllistp->start;
+    NODE *prev = NULL;
+
+    while (curr != NULL) {
+      
+      // alphabetical order insertion --> small to large --> if node less then next insert before it
+      if (strcmp(node->data.name, curr->data.name) <= 0) {
+        break;
+      }
+
+      // iterate
+      prev = curr;
+      curr = curr->next;
+    }
+  }
+
 }
 
 int delete(SLLIST *sllistp, char *name) {
