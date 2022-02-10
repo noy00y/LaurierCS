@@ -67,7 +67,6 @@ void insert(SLLIST *sllistp, char *name, float score) {
 
       // Insert in Middle:
       if (strcmp(curr->data.name, name) >= 0) {
-        printf("insert here");
         prev->next = node;
         node->next = curr;
         sllistp->length += 1; // increase length
@@ -89,11 +88,10 @@ void insert(SLLIST *sllistp, char *name, float score) {
   }
 }
 
-
-
 int delete(SLLIST *sllistp, char *name) {
-// your implementation
-// need to update the length
+
+
+
 }
 
 void clean(SLLIST *sllistp) {
