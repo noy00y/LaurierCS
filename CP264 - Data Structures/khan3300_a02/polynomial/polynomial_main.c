@@ -29,6 +29,26 @@ int main()
     printf("%.2f\n", horner(p, n, x[i]));
   }
   
+float horner(float a[], int n, float x) { //calculate sum using horner method
+
+    int rounded;
+
+    if (x > 0) //add .5 to round
+        rounded = (int) (x * 100 + 0.5);
+
+    else
+        rounded = (int) (x * 100 - 0.5); //subtract .5 to round
+
+    x = (float) rounded / 100;
+
+    float value = a[0]; //initializer
+
+    for (int i = 1; i < n; i++) //calculate polynomial
+        value = value * x + a[i];
+
+    return value;
+}
+
   // test bisection function
   float a=-2, b=2;
   float pa = horner(p, n, a); 

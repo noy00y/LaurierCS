@@ -1,10 +1,8 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h> 
 #include "myrecord_sllist.h"
-
 
 void display(SLLIST *sllistp) {
     NODE *np = sllistp->start;
@@ -25,13 +23,35 @@ NODE *search(SLLIST *sllistp, char *name) {
     
     // string comparision:
     if (strcmp(node->data.name, name) == 0) {
-      return node;
+      return node; // returns the node found
     }
     
     // Iteration:
     node = node->next;
   }
-  return node;
+  return node; //returns the last node in the list
+}
+
+NODE *delete_search(SLLIST *sllistp, char *name) {
+  
+  // Declarations:
+  NODE *node = sllistp->start;
+  NODE *prev = NULL; 
+
+  // Traverse:
+  while (node != NULL) {
+    
+    // string comparision:
+    if (strcmp(node->data.name, name) == 0) {
+      return prev; // returns the node prev
+    }
+    
+    // Iteration:
+    prev = node;
+    node = node->next;
+  }
+
+  return prev; // returns the nodes
 }
 
 void insert(SLLIST *sllistp, char *name, float score) {
@@ -90,20 +110,57 @@ void insert(SLLIST *sllistp, char *name, float score) {
 
 int delete(SLLIST *sllistp, char *name) {
 
+  // Case 1: Empty List -> can't delete
+  if (sllistp->length == 0) {
+    return 0;
+  }
 
+  // List Not Empty --> Delete
+  else {
 
+    // Get Nodes
+    NODE *node = search(sllistp, name);
+    NODE *prev = delete_search(sllistp, name);
+
+    // Case: Node Found --> Delete Node
+    if (strcmp(node->data.name, name) == 0) {
+
+      // printf("node: %s, prev: %s\n", node->data.name, prev->data.name); // Debug
+
+      // Delete Front:
+      if (sllistp->start == node) {
+        sllistp->start->next = node->next;
+      }
+
+      // Delete End:
+      else if (node->next == NULL) {
+        prev->next = NULL;
+      }
+
+      // Delete Mid:
+      else {
+        prev->next = node->next;
+      }
+
+      // Update Length, Free Node and Return:
+      free(node);
+      sllistp->length -= 1;
+      return 1;
+    }
+
+    // Case: Node not Found --> cant delete
+    else {
+      return -1;
+    }
+
+  }
 }
 
 void clean(SLLIST *sllistp) {
   // your implementation to clean the singly linked list
-
     sllistp->start = NULL;
     sllistp->length = 0;
 }
-
-
-
-// you are allowed to refer or use the following functions 
 
 char letter_grade(float s){
   char r = 'F';
@@ -206,3 +263,5 @@ STATS report_data(SLLIST *sllistp, char *filename) {
   
   return get_stats(sllistp);
 }
+
+//gcc myrecord_sllist_main.c myrecord_sllist.c -o task1   
