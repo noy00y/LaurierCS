@@ -264,4 +264,3 @@ STATS report_data(SLLIST *sllistp, char *filename) {
   return get_stats(sllistp);
 }
 
-//gcc myrecord_sllist_main.c myrecord_sllist.c -o task1   

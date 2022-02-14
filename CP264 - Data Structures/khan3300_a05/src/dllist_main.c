@@ -5,7 +5,7 @@ Author:  HBF
 Version: 2022-02-02
 --------------------------------------------------
 */ 
-
+//gcc dllist_main.c dllist.c -o task2 
 #include <stdio.h>
 #include <stdlib.h>
 #include "dllist.h"
@@ -25,6 +25,8 @@ int main(int argc, char* args[]) {
   display_backward(&dllist);
   printf("\nlength:%d\n",dllist.length);
   
+
+  // printf("\n---------\nDeleting Nodes\n---------\n");
   delete_start(&dllist);
   delete_end(&dllist);
   printf("display_forward2:");
@@ -35,7 +37,7 @@ int main(int argc, char* args[]) {
   for (i = 0; i<10; i++) {
     insert_end(&dllist, new_node('a'+i));
   }
-  printf("display_forward3:");
+  printf("display_backward3:");
   display_forward(&dllist);
   printf("\nlength3:%d\n",dllist.length);   
   clean(&dllist); 
