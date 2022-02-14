@@ -67,6 +67,7 @@ void delete_start(DLLIST *dllistp) {
   else {
     NODE *node = dllistp->start; // get node to delete
     dllistp->start = dllistp->start->next; // shave starting node from the list
+    dllistp->start->prev = NULL;
     free(node); // delete the Node
   }
 
@@ -85,6 +86,7 @@ void delete_end(DLLIST *dllistp) {
   else {
     NODE *node = dllistp->end;
     dllistp->end = dllistp->end->prev;
+    dllistp->end->next = NULL;
     free(node);
   }
 

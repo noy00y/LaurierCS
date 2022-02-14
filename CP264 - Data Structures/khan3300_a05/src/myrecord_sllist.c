@@ -157,9 +157,21 @@ int delete(SLLIST *sllistp, char *name) {
 }
 
 void clean(SLLIST *sllistp) {
+  
+  // Node Declarations:
+  NODE *temp,  *node = sllistp->start;
+  
+  while (node != NULL) {
+    temp = node;
+
+    // Next Iteration
+    node = node->next;
+    free(temp);
+  }
+
   // your implementation to clean the singly linked list
-    sllistp->start = NULL;
-    sllistp->length = 0;
+  sllistp->start = NULL;
+  sllistp->length = 0;
 }
 
 char letter_grade(float s){
