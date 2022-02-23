@@ -32,7 +32,7 @@ NODE *search(SLLIST *sllistp, char *name) {
   return node; //returns the last node in the list
 }
 
-NODE *delete_search(SLLIST *sllistp, char *name) {
+NODE *prev_node(SLLIST *sllistp, char *name) {
   
   // Declarations:
   NODE *node = sllistp->start;
@@ -120,7 +120,7 @@ int delete(SLLIST *sllistp, char *name) {
 
     // Get Nodes
     NODE *node = search(sllistp, name);
-    NODE *prev = delete_search(sllistp, name);
+    NODE *prev = prev_node(sllistp, name);
 
     // Case: Node Found --> Delete Node
     if (strcmp(node->data.name, name) == 0) {
