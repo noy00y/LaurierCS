@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "myrecord_sllist.h": "c",
-        "typeinfo": "c"
+        "typeinfo": "c",
+        "stdlib.h": "c"
     }
 }

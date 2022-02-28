@@ -11,15 +11,16 @@ void enqueue(QUEUE *qp, NODE *np) {
     if (qp->length == 0) {
         qp->front = np;
         qp->rear = np;
-        qp->length += 1;
     }
 
     // Insert at Rear
     else {
         qp->rear->next = np;
         qp->rear = np;
-        qp->length += 1;
     }
+    
+    // Update Length
+    qp->length += 1;
 }  
 
 /* 
