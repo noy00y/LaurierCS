@@ -1,98 +1,95 @@
 #include "mystring.h"
 #define NULL 0
 
-int str_length(char *s)
+int str_length(char *a)
 {
-if (!s)
-return -1;
+	if (!a)
+		return -1;
 
-int n = 0;
-for (; *s; ++s)
-{
+	int n = 0;
+	for (; *a; ++a)
+	{
+		++n;
+	}
 
-++n;
-}
-
-return n;
-}
-
-int is_white_space(char c) //helper function
-{
-if (c == ' ' || c == '\t' || c == '\n')
-return 1;
-return 0;
+	return n;
 }
 
-int word_count(char *s)
+int white_space(char a) 
 {
-// char *s = string;
-int inWord = 0;
-int w_count = 0;
-
-while (*s)
-{
-if (is_white_space(*s))
-{
-inWord = 0;
-while (is_white_space(*s))
-s++; //move to next character
-}
-else
-{
-if (!inWord)
-{
-inWord = 1;
-w_count++;
-}
-s++;
-}
+	if (a == ' ' || a == '\t' || a == '\n')
+		return 1;
+	
+	return 0;
 }
 
-return w_count;
+int word_count(char *a)
+{
+	int inWord = 0;
+	int w_count = 0;
+
+	while (*a)
+	{
+		if (white_space(*a))
+		{
+			inWord = 0;
+			while (white_space(*a))
+			a++; 
+		}
+		else
+		{
+			if (!inWord)
+		{
+			inWord = 1;
+			w_count++;
+		}
+			a++;
+		}
+	}
+	return w_count;
 }
 
-void lower_case(char *s)
+void lower_case(char *a)
 {
-if (!s)
-return;
+	if (!a)
+		return;
 
-for (; *s; ++s)
-{
-int ascii = *s;
-if (ascii >= 65 && ascii <= 90)
-{
-ascii += 32;
-*s = ascii;
-}
-}
+	for (; *a; ++a)
+	{
+		int ascii = *a;
+		if (ascii >= 65 && ascii <= 90)
+		{
+			ascii += 32;
+			*a = ascii;
+		}
+	}
 }
 
-void trim(char *s)
+void trim(char *a)
 {
-char *org = s;
-int size = str_length(s);
-char trimmed_s[size];
-int b = 0;
-if (is_white_space(*s))
-{
-
-while (is_white_space(*s))
-s++; //move to next character
-}
-while (*s != '\0')
-{
-if (!(is_white_space(*s) == 1 && ((is_white_space(*(s + 1)) == 1) || *(s + 1)== '\0')))
-{
-trimmed_s[b] = *s;
-b++;
-}
-s++;
-}
-trimmed_s[b] = '\0';
-s = org;
-for (int i = 0; i < size; i++)
-{
-*s = trimmed_s[i];
-s++;
-}
+	char *org = a;
+	int size = str_length(a);
+	char trimmed_s[size];
+	int b = 0;
+	if (white_space(*a))
+	{
+		while (white_space(*a))
+		a++; 
+	}
+	while (*a != '\0')
+	{
+		if (!(white_space(*a) == 1 && ((white_space(*(a + 1)) == 1) || *(a + 1)== '\0')))
+		{
+		trimmed_s[b] = *a;
+		b++;
+		}
+		a++;
+	}
+	trimmed_s[b] = '\0';
+	a = org;
+	for (int i = 0; i < size; i++)
+	{
+		*a = trimmed_s[i];
+		a++;
+	}
 }
